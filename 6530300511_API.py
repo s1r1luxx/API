@@ -23,17 +23,17 @@ def Greet():
 @app.route("/students",methods=["GET"])
 @basic_auth.required
 def get_all_students():
-    students = collection
-    return jsonify({"students":students})
+    students = collection.find()
+    return jsonify({"students":list(students)})
 
-@app.route("/books/<int:book_id>",methods=["GET"])
+@app.route("/students/<int:student_id>",methods=["GET"])
 @basic_auth.required
-def get_book(book_id):
-    book =  next(( b for b in books if b["id"]==book_id ),None)
-    if book:
-        return jsonify(book)
+def get_student(student_id):
+    student = collection.find_one({"_id":str(student_id)})
+    if student:
+        return jsonify(student)
     else:
-        return jsonify({"error":"Book not found"}),404
+        return jsonify({"error":"Students not found"}),404
 
 @app.route("/books",methods=["POST"])
 @basic_auth.required
