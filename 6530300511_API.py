@@ -1,10 +1,10 @@
-#password FZjpQCRkkWd6hntm
+from flask import request,Flask,jsonify
+from flask_basicauth import BasicAuth
+
 from pymongo.mongo_client import MongoClient
 
 client = MongoClient("mongodb+srv://sirilux:FZjpQCRkkWd6hntm@cluster0.6jtbi56.mongodb.net/?retryWrites=true&w=majority", tlsCAFile=certifi.where())
 
-from flask import request,Flask,jsonify
-from flask_basicauth import BasicAuth
 app = Flask(__name__) 
 
 app.config['BASIC_AUTH_USERNAME']='username'
@@ -17,7 +17,7 @@ collection = db["std_info"]
 
 @app.route("/")
 def Greet():
-    return "<p>Welcome to Book Management Systems</p>"
+    return "<p>Welcome to Student Management API</p>"
 
 @app.route("/books",methods=["GET"])
 @basic_auth.required
