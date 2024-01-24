@@ -54,21 +54,18 @@ def update_student(student_id):
     if not student:
         return jsonify({"error":"Student not found"}), 404
     else:
+        collection.update_one({"_id": str(student_id)}, {"$set": data})
         return jsonify(data), 200
 
-@app.route("/books/<int:book_id>",methods=["DELETE"])
+@app.route("/students/<int:student_id>",methods=["DELETE"])
 @basic_auth.required
-def delete_book(book_id):
-    book = next((b for b in books if b["id"]==book_id),None)
-    if book:
-        books.remove(book)
-        return jsonify({"message":"Book deleted successfully"}),200
+def delete_student(student_id):
+    student = collection.find_one({"_id":str(student_id)})
+    if not student:
+        return jsonify({"error":"Student not found"}), 404
     else:
-        return jsonify({"error":"Book not found"}),404
-    
-
-
-
+        collection.delete_one({"_id":str(student_id)})
+        return jsonify({"message":"Student deleted successfully"}), 200
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0",port=5000,debug=True)
