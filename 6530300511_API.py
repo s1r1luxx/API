@@ -1,3 +1,4 @@
+import certifi
 from flask import request,Flask,jsonify
 from flask_basicauth import BasicAuth
 
@@ -22,7 +23,8 @@ def Greet():
 @app.route("/books",methods=["GET"])
 @basic_auth.required
 def get_all_books():
-    return jsonify({"books":books})
+    students = collection
+    return jsonify({"Students":students})
 
 @app.route("/books/<int:book_id>",methods=["GET"])
 @basic_auth.required
