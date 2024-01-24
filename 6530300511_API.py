@@ -20,11 +20,11 @@ collection = db["std_info"]
 def Greet():
     return "<p>Welcome to Student Management API</p>"
 
-@app.route("/books",methods=["GET"])
+@app.route("/students",methods=["GET"])
 @basic_auth.required
-def get_all_books():
+def get_all_students():
     students = collection
-    return jsonify({"Students":students})
+    return jsonify({"students":students})
 
 @app.route("/books/<int:book_id>",methods=["GET"])
 @basic_auth.required
