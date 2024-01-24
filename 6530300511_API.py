@@ -35,17 +35,12 @@ def get_student(student_id):
     else:
         return jsonify({"error":"Students not found"}),404
 
-@app.route("/books",methods=["POST"])
+@app.route("/students",methods=["POST"])
 @basic_auth.required
-def create_book():
+def create_student():
     data = request.get_json()
-    new_book={
-        "id":len(books)+1,
-        "title":data["title"],
-        "author":data["author"]
-    }
-    books.append(new_book)
-    return jsonify(new_book),201
+    collection.insert_one(data)
+    return jsonify(data),201
 
 @app.route("/books/<int:book_id>",methods=["PUT"])
 @basic_auth.required
