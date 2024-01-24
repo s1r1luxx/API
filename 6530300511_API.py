@@ -40,18 +40,21 @@ def get_student(student_id):
 def create_student():
     data = request.get_json()
     collection.insert_one(data)
-    return jsonify(data),201
-
-@app.route("/books/<int:book_id>",methods=["PUT"])
-@basic_auth.required
-def update_book(book_id):
-    book = next((b for b in books if b["id"]==book_id),None)
-    if book:
-        data = request.get_json()
-        book.update(data)
-        return jsonify(book)
+    if data:
+        return jsonify(data), 200
     else:
-        return jsonify({"error":"Book not found"}),404
+        return jsonify({"error":"Cannot create new student"}),500
+
+
+@app.route("/students/<int:student_id>",methods=["PUT"])
+@basic_auth.required
+def update_student(student_id):
+    data = request.get_json()
+    student = collection.find_one({"_id":str(student_id)})
+    if not student:
+        return jsonify({"error":"Student not found"}), 404
+    else:
+        return jsonify(data), 200
 
 @app.route("/books/<int:book_id>",methods=["DELETE"])
 @basic_auth.required
